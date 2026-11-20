@@ -1,0 +1,28 @@
+voucher_no,vendor_name,vendor_gstin,vendor_pan,invoice_no,invoice_date,taxable_value,igst,cgst,sgst,expense_ledger,tds_section,tds_deducted
+PUR-1000,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/101/26-27,2026-04-12,800000,0,20000,20000,Raw material purchase,,0
+PUR-1001,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/102/26-27,2026-05-10,800000,0,20000,20000,Raw material purchase,,0
+PUR-1002,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/103/26-27,2026-06-14,800000,0,20000,20000,Raw material purchase,,0
+PUR-1003,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/104/26-27,2026-07-11,800000,0,20000,20000,Raw material purchase,,0
+PUR-1004,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/105/26-27,2026-08-13,800000,0,20000,20000,Raw material purchase,,0
+PUR-1005,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/106/26-27,2026-09-12,800000,0,20000,20000,Raw material purchase,,0
+PUR-1006,BlueLine Advertising LLP,29AAOFB9034D1ZB,,BLA-2026-031,2026-05-20,30000,0,2700,2700,Advertising & promotion,,0
+PUR-1007,BlueLine Advertising LLP,29AAOFB9034D1ZB,,BLA-2026-058,2026-07-18,28000,0,2520,2520,Advertising & promotion,,0
+PUR-1008,BlueLine Advertising LLP,29AAOFB9034D1ZB,,BLA-2026-077,2026-09-16,25000,0,2250,2250,Advertising & promotion,,0
+PUR-1009,TechServe IT Solutions Pvt Ltd,29AAKCT8853H1ZM,,TS/AMC/0712,2026-07-05,20000,0,1800,1800,IT support AMC,194J(a),400
+PUR-1010,Annapurna Agro Traders,29AAKFA4821K1Z8,,AAT/107/26-27,2026-10-09,600000,0,15000,15000,Raw material purchase,,0
+PUR-1011,Shree Logistics,29BQSPS5528L1ZR,,SL-2291,2026-10-04,42000,0,1050,1050,Freight inward,194C,420
+PUR-1012,Bharat Cold Chain Pvt Ltd,29AABCB6648J1ZB,,BCC/OCT/118,2026-10-15,40000,0,2400,2400,Transport - cold chain,194C,800
+PUR-1013,Pristine Stationers,29AAPFP5503N1ZL,,PS-5541,2026-10-06,12000,0,1080,1080,Office supplies,,0
+PUR-1014,Kumar & Associates (Advocates),29AAFFK6612M1ZY,,KA/26/044,2026-10-17,75000,0,6750,6750,Legal fees,,0
+PUR-1015,TechServe IT Solutions Pvt Ltd,29AAKCT8853H1ZM,,TS/AMC/1014,2026-10-14,60000,0,5400,5400,IT support AMC,194J(a),1200
+PUR-1016,Nandi Equipment Hire,29CNHPN3317G1ZW,,NEH-0921,2026-10-01,55000,0,4950,4950,Forklift hire (machinery rent),,0
+PUR-1017,Zen Cloud Software Pvt Ltd,27AAZCZ2290E1ZO,,ZCS-IN-88412,2026-10-01,36000,6480,0,0,Software subscription,,0
+PUR-1018,BlueLine Advertising LLP,29AAOFB9034D1ZB,,BLA-2026-096,2026-10-21,25000,0,2250,2250,Advertising & promotion,,0
+PUR-1019,Coastal Packaging Pvt Ltd,29AADCC7310P1ZB,,CP/0412/26-27,2026-10-08,88000,0,7920,7920,Packing material,,0
+PUR-1020,Coastal Packaging Pvt Ltd,29AADCC7310P1ZB,,CP/0431/26-27,2026-10-22,15000,0,1350,1350,Packing material,,0
+PUR-1021,Coastal Packaging Pvt Ltd,29AADCC7310P1ZB,,CP/0431/26-27,2026-10-22,15000,0,1350,1350,Packing material,,0
+PUR-1022,Prime Facility Services Pvt Ltd,29AAHCP2219Q1ZU,,PFS/OCT/2026/09,2026-10-31,120000,0,10800,10800,Housekeeping manpower,194C,1200
+PUR-1023,Brigade Workspaces Pvt Ltd,29AAJCB4470R1ZV,,BW/R/2026/10,2026-10-01,150000,0,13500,13500,Office rent,194I(b),15000
+PUR-1024,GreenLeaf Consultants,29DGLPG7742B1ZB,DGLPG7742B,GLC-077,2026-10-19,80000,0,7200,7200,Consultancy charges,194C,800
+PUR-1025,Metro Commission Agents,33ELMPM1196C1Z4,,MCA-3310,2026-10-25,30000,5400,0,0,Brokerage on sales,,0
+PUR-1026,Ravi Kumar (civil contractor),,,Hand bill 14,2026-10-27,45000,0,0,0,Repairs - civil work,,0
