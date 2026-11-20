@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FileReady: GST &amp; TDS close</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%23ffd84a%22/%3E%3Cpath d=%22M9 17l5 5 9-12%22 stroke=%22%23101418%22 stroke-width=%223.5%22 fill=%22none%22/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="band"><div class="wrap">
+  <div class="brand"><b>FileReady</b><span>Month-end GST and TDS check for SME books: match GSTR-2B, catch missed TDS, know what to fix before the 20th.</span></div>
+  <div class="controls">
+    <label class="f">Return period<input type="month" id="period" value="2026-10"></label>
+    <label class="f">Check as on<input type="date" id="asof" value="2026-11-20"></label>
+    <label class="f">Company<input type="text" id="company" value="Sunrise Foods Pvt Ltd"></label>
+    <label class="chk"><input type="checkbox" id="q194" checked>Last year's turnover above ₹10 crore (194Q)</label>
+  </div>
+  <div class="controls">
+    <span class="btn file">Purchase register (.xlsx or .csv)<input type="file" id="fBooks" accept=".csv,.xlsx"><span class="picked" id="pBooks">sample loaded</span></span>
+    <span class="btn file">GSTR-2B (.xlsx, .csv or portal .json)<input type="file" id="f2b" accept=".csv,.xlsx,.json"><span class="picked" id="p2b">sample loaded</span></span>
+    <button id="sample">Reload sample</button>
+    <button id="report" class="primary">Download Excel report</button>
+    <label class="f hide" id="keyWrap">Access key<input type="password" id="key" autocomplete="off"></label>
+  </div>
+  <div class="src" id="src"></div><div class="src">Sample files to try: <a href="/samples/purchase-register.xlsx">purchase register (Tally-style)</a> · <a href="/samples/gstr2b.xlsx">GSTR-2B (portal-style)</a></div><div class="err" id="err"></div>
+</div></header>
+
+<section class="band"><div class="wrap top">
+  <div>
+    <h1 id="finding">Checking…</h1>
+    <div class="figs">
+      <div class="fig1"><div class="v" id="kRisk">₹0</div><div class="k" id="kRiskL">input tax credit on hold</div></div>
+      <div class="fg"><div class="v" id="kClaim">₹0</div><div class="k">ITC you can claim in GSTR-3B</div></div>
+      <div class="fg"><div class="v" id="kTds">₹0</div><div class="k" id="kTdsL">TDS to deduct and deposit</div></div>
+      <div class="fg" style="grid-column:1/-1"><div class="v" id="kNext" style="font-size:20px;white-space:normal">—</div><div class="k" id="kNextL">next deadline</div></div>
+    </div>
+  </div>
+  <div class="chart">
+    <h2 id="chartT">Where this month's ITC stands</h2>
+    <p>Tax on purchase invoices in your books, split by what GSTR-2B says about each one.</p>
+    <div id="bars"></div>
+  </div>
+</div></section>
+
+<nav class="tabs scroll" id="tabs" aria-label="Schedules">
+  <a href="#fix">Fix list<span class="cnt" id="cFix"></span></a>
+  <a href="#gst">GST vs 2B<span class="cnt" id="cGst"></span></a>
+  <a href="#tds">TDS check<span class="cnt" id="cTds"></span></a>
+  <a href="#emails">Vendor emails<span class="cnt" id="cMail"></span></a>
+  <a href="#dates">Deadlines</a>
+  <a href="#how">How it decides</a>
+</nav>
+
+<main class="band"><div class="wrap">
+  <section class="sec" id="s-fix">
+    <div class="secbar"><p>Everything that needs a person, largest amount first. Each line says what to do and by when.</p><div class="filters"><button data-copy="fix">Copy list</button></div></div>
+    <div id="fixList"></div>
+  </section>
+  <section class="sec" id="s-gst">
+    <div class="secbar"><div class="filters" id="gstF"></div><div class="filters"><button data-copy="gst">Copy CSV</button></div></div>
+    <div class="scroll"><table class="stack"><thead><tr><th>Status</th><th>Vendor</th><th>Invoice (books / 2B)</th><th>Date</th><th class="r">Tax in books</th><th class="r">Tax in 2B</th><th class="r">On hold</th><th>Why</th></tr></thead><tbody id="gstT"></tbody></table></div>
+  </section>
+  <section class="sec" id="s-tds">
+    <div class="secbar"><div class="filters" id="tdsF"></div><div class="filters"><button data-copy="tds">Copy CSV</button></div></div>
+    <div class="scroll"><table class="stack"><thead><tr><th>Status</th><th>Vendor</th><th>Date</th><th>Section (old → 2025 Act)</th><th class="r">Amount</th><th class="r">Rate</th><th class="r">Should deduct</th><th class="r">Deducted</th><th class="r">Short + interest</th><th>Why</th></tr></thead><tbody id="tdsT"></tbody></table></div>
+  </section>
+  <section class="sec" id="s-emails">
+    <div class="secbar"><p>One email per supplier whose invoices don't match GSTR-2B. Suppliers fix it in GSTR-1/IFF or GSTR-1A, and it shows up in your next 2B.</p></div>
+    <div id="mails"></div>
+  </section>
+  <section class="sec" id="s-dates">
+    <div class="secbar"><p id="datesP">Monthly filer dates for the selected period.</p></div>
+    <div id="cal"></div>
+  </section>
+  <section class="sec" id="s-how">
+    <div class="how">
+      <div><h3>Rules decide, every time</h3><p>No AI guesses a number here. Each result comes from a written rule, and the reason is printed next to it, so a CA can check any line in seconds. Same input, same output.</p></div>
+      <div><h3>Matching GSTR-2B</h3><p>Pass 1 matches GSTIN + invoice number exactly. Pass 2 forgives formatting ("CP/0412/26-27" = "CP-412") when the amount agrees. Pass 3 finds the same invoice under a slightly different GSTIN (a typo in your vendor master). Leftovers are "not in 2B" or "not in books". Duplicates in books are caught first.</p></div>
+      <div><h3>Why 2B is the limit</h3><p>Since April 2026, GSTR-3B cannot claim more ITC than GSTR-2B shows. So anything not matched is shown as on hold, and the supplier gets an email.</p></div>
+      <div><h3>TDS under the Income-tax Act, 2025</h3><p>Non-salary TDS now sits in section 393(1). Books still say 194C or 194J, so both are shown. Thresholds for tax year 2026-27: contracts ₹30,000 per bill or ₹1 lakh a year (1% individual/HUF, 2% others, manpower included); professional fees 10% and technical fees 2% above ₹50,000; commission 2% above ₹20,000; rent 10% (building) or 2% (machinery) above ₹50,000 a month; goods 0.1% above ₹50 lakh per seller if your turnover crossed ₹10 crore. No valid PAN: 20%.</p></div>
+      <div><h3>Section from the ledger</h3><p>When a line has no TDS section, it is read from the ledger name ("Legal fees" → professional). If the booked section disagrees with the ledger ("Consultancy" booked as 194C), both are computed and the higher one is shown, flagged for review.</p></div>
+      <div><h3>Interest and disallowance</h3><p>Interest for not deducting is 1% a month or part, from the date TDS became due; for a yearly threshold, that is the date the year's total crossed it. If tax is not deducted at all, 30% of the expense can be disallowed when computing income, so that figure is shown as a risk.</p></div>
+      <div><h3>Your data is not kept</h3><p>Files are read in memory to produce this check and the Excel report, then discarded. Nothing is written to disk or a database, and file contents are never logged.</p></div>
+      <div><h3>What to check yourself</h3><p>Payment codes for Form 140 are not filled in: published mappings disagree, so pick them from the return utility. QRMP (quarterly) filers have different GST dates. This is a working aid, not tax advice.</p></div>
+    </div>
+  </section>
+</div></main>
+<footer class="band"><div class="wrap">Sample data is a fictional company with invented vendors. Load your own Tally or Zoho purchase register and the GSTR-2B export from the GST portal to check real books.</div></footer>
+<div class="toast" id="toast"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
