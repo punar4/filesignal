@@ -8,22 +8,43 @@
 <link rel="stylesheet" href="/app.css">
 </head>
 <body>
-<header class="band"><div class="wrap">
-  <div class="brand"><b>FileSignal Ready</b><span>Know what's ready. Know when to file. Pre-filing GST and TDS checks for CA firms.</span></div>
-  <div class="controls">
+<header class="band hero"><div class="wrap">
+  <div class="brand"><b>FileSignal Ready</b><span>Know what's ready. Know when to file.</span></div>
+  <h2 class="lead">Check a client's GST and TDS before you file: upload two files, get a fix list and an Excel workpaper.</h2>
+
+  <div class="steps">
+    <label class="drop" id="dBooks" for="fBooks">
+      <span class="num">1</span>
+      <span class="dt">Purchase register</span>
+      <span class="dd">Tally or Zoho export · .xlsx or .csv</span>
+      <span class="cta">Drag a file here or <u>choose a file</u></span>
+      <span class="picked" id="pBooks">Sample loaded</span>
+      <input type="file" id="fBooks" accept=".csv,.xlsx">
+    </label>
+    <label class="drop" id="d2b" for="f2b">
+      <span class="num">2</span>
+      <span class="dt">GSTR-2B</span>
+      <span class="dd">From the GST portal · .xlsx, .csv or .json</span>
+      <span class="cta">Drag a file here or <u>choose a file</u></span>
+      <span class="picked" id="p2b">Sample loaded</span>
+      <input type="file" id="f2b" accept=".csv,.xlsx,.json">
+    </label>
+  </div>
+  <p class="hint">Columns like GSTIN, Invoice No., Invoice Date, Taxable Value, IGST, CGST and SGST are recognised automatically. Try the samples: <a href="/samples/purchase-register.xlsx">purchase register (Tally-style)</a> · <a href="/samples/gstr2b.xlsx">GSTR-2B (portal-style)</a></p>
+
+  <div class="settings">
+    <span class="num sm">3</span>
     <label class="f">Return period<input type="month" id="period" value="2026-10"></label>
     <label class="f">Check as on<input type="date" id="asof" value="2026-11-20"></label>
     <label class="f">Company<input type="text" id="company" value="Sunrise Foods Pvt Ltd"></label>
     <label class="chk"><input type="checkbox" id="q194" checked>Last year's turnover above ₹10 crore (194Q)</label>
   </div>
-  <div class="controls">
-    <span class="btn file">Purchase register (.xlsx or .csv)<input type="file" id="fBooks" accept=".csv,.xlsx"><span class="picked" id="pBooks">sample loaded</span></span>
-    <span class="btn file">GSTR-2B (.xlsx, .csv or portal .json)<input type="file" id="f2b" accept=".csv,.xlsx,.json"><span class="picked" id="p2b">sample loaded</span></span>
+  <div class="actions">
+    <button id="report" class="primary big">Download Excel report</button>
     <button id="sample">Reload sample</button>
-    <button id="report" class="primary">Download Excel report</button>
     <label class="f hide" id="keyWrap">Access key<input type="password" id="key" autocomplete="off"></label>
   </div>
-  <div class="src" id="src"></div><div class="src">Sample files to try: <a href="/samples/purchase-register.xlsx">purchase register (Tally-style)</a> · <a href="/samples/gstr2b.xlsx">GSTR-2B (portal-style)</a></div><div class="err" id="err"></div>
+  <div class="src" id="src"></div><div class="err" id="err"></div>
 </div></header>
 
 <section class="band"><div class="wrap top">

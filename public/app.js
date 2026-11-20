@@ -53,7 +53,8 @@ async function run() {
 async function loadSample() {
   const get = async (u, n) => new File([await (await fetch(u)).blob()], n);
   files = { books: await get('/samples/purchase-register.xlsx', 'purchase-register.xlsx'), gstr2b: await get('/samples/gstr2b.xlsx', 'gstr2b.xlsx') };
-  $('pBooks').textContent = 'sample (Tally-style .xlsx)'; $('p2b').textContent = 'sample (portal-style .xlsx)';
+  $('pBooks').textContent = 'Sample loaded (Tally-style)'; $('p2b').textContent = 'Sample loaded (portal-style)';
+  $('dBooks').classList.remove('has'); $('d2b').classList.remove('has');
   $('period').value = '2026-10'; $('company').value = 'Sunrise Foods Pvt Ltd';
   run();
 }
@@ -140,8 +141,20 @@ document.addEventListener('click', async (e) => {
   }
 });
 ['period', 'asof', 'q194', 'company'].forEach((id) => $(id).addEventListener('change', run));
-$('fBooks').addEventListener('change', (e) => { if (e.target.files[0]) { files.books = e.target.files[0]; $('pBooks').textContent = files.books.name; run(); } });
-$('f2b').addEventListener('change', (e) => { if (e.target.files[0]) { files.gstr2b = e.target.files[0]; $('p2b').textContent = files.gstr2b.name; run(); } });
+function pick(kind, file) {
+  if (!file) return;
+  if (kind === 'books') { files.books = file; $('pBooks').textContent = file.name; $('dBooks').classList.add('has'); }
+  else { files.gstr2b = file; $('p2b').textContent = file.name; $('d2b').classList.add('has'); }
+  run();
+}
+$('fBooks').addEventListener('change', (e) => pick('books', e.target.files[0]));
+$('f2b').addEventListener('change', (e) => pick('2b', e.target.files[0]));
+[['dBooks', 'books'], ['d2b', '2b']].forEach(([id, kind]) => {
+  const el = $(id);
+  ['dragenter', 'dragover'].forEach((ev) => el.addEventListener(ev, (e) => { e.preventDefault(); el.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach((ev) => el.addEventListener(ev, (e) => { e.preventDefault(); el.classList.remove('over'); }));
+  el.addEventListener('drop', (e) => pick(kind, e.dataTransfer.files[0]));
+});
 
 const TABS = ['fix', 'gst', 'tds', 'emails', 'dates', 'how'];
 function route() {
