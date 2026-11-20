@@ -1,0 +1,17 @@
+# One-click deploy on Render: New > Blueprint > pick this repo.
+services:
+  - type: web
+    name: filesignal
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MAX_FILE_MB
+        value: "10"
+      - key: RATE_LIMIT
+        value: "30"
+      - key: ACCESS_KEY        # optional: set a long random value to make the app private
+        sync: false
