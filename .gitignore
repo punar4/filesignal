@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+*.log
+.DS_Store
+# never commit real client data
+data/
+uploads/
+*.real.xlsx
+*.real.csv
+HANDOFF.md
