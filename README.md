@@ -1,8 +1,7 @@
-# FileReady
-
+# FileSignal Ready
 Month-end GST and TDS check for Indian SME books, built for a virtual-CFO desk that runs the same close for many clients.
 
-Upload a purchase register (Tally or Zoho export) and GSTR-2B (GST portal Excel or JSON). FileReady:
+Upload a purchase register (Tally or Zoho export) and GSTR-2B (GST portal Excel or JSON). FileSignal Ready:
 
 - **Matches books against GSTR-2B** in three passes: exact, invoice-number format differences, then GSTIN typos. It also catches duplicates, ITC marked not available, and 2B invoices missing from the books. Since April 2026, GSTR-3B can't claim ITC above 2B, so anything unmatched is shown as **on hold**.
 - **Checks TDS under the Income-tax Act, 2025** (section 393) next to the old 194C/194J/194H/194I/194Q labels. It covers rates, per-bill and yearly thresholds, missing PAN (20%), booked-section vs ledger conflicts, interest from the date TDS became due, and the 30% disallowance risk.

@@ -132,7 +132,7 @@ function createApp() {
 
 if (require.main === module) {
   const port = Number(process.env.PORT || 3000);
-  const server = createApp().listen(port, () => console.log(`FileReady on http://localhost:${port}`));
+  const server = createApp().listen(port, () => console.log(`FileSignal Ready on http://localhost:${port}`));
   server.requestTimeout = 60 * 1000;
   server.headersTimeout = 20 * 1000;
 }

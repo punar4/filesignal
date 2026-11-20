@@ -34,14 +34,14 @@ function sheet(wb, name, cols, rows, moneyKeys = []) {
 
 async function buildWorkbook(out) {
   const wb = new ExcelJS.Workbook();
-  wb.creator = 'FileReady';
+  wb.creator = 'FileSignal Ready';
   wb.created = new Date();
   const { meta, rec, tds, cal, mails, fix } = out;
 
   const sum = wb.addWorksheet('Summary');
   sum.columns = [{ width: 46 }, { width: 22 }];
   const lines = [
-    ['FileReady: GST and TDS close', ''],
+	  ['FileSignal Ready: GST and TDS check', ''],
     ['Company', safe(meta.company || '')],
     ['Return period', meta.monthName],
     ['Checked as on', meta.asOf],
